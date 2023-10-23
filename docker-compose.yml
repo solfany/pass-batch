@@ -1,0 +1,31 @@
+version: "3.8"                                    # docker-compose 파일 버전입니다.
+services:                                         # 서비스들을 선언합니다.
+  mysql:                                          # 서비스명을 선언합니다.
+    container_name: mysql_local
+    image: mysql:8.0.30
+    volumes:                                      # {호스트}:{컨테이너}
+      - ./db/conf.d:/etc/mysql/conf.d             # MySQL 설정 파일이 있습니다.
+      - ./db/initdb.d:/docker-entrypoint-initdb.d # sh, sql을 파일명 알파벳순으로 수행합니다. 테이블 create, insert 쿼리 파일이 들어있습니다.
+
+
+    # 헤멘드의 내용은 인증 플로그인 암호화 방식을 변경할 것이기 때문에 해당 설정은 다른 파일에 관리될 예정
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    # command: --default-authentication-plugin=mysql_native_password
+
+    ports:                                        # 외부로 노출시킬 port 입니다.
+      - "3306:3306"
+#    restart: always
+    environment:                                  # 환경 변수
+      - MYSQL_DATABASE=pass_local
+      - MYSQL_USER=pass_local_user
+      - MYSQL_PASSWORD=passlocal123
+      - MYSQL_ROOT_PASSWORD=passlocal123
+      - TZ=Asia/Seoul
+
+
+
+
+
+
+
